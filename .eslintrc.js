@@ -5,12 +5,20 @@ module.exports = {
     },
     extends: [
         'airbnb',
+        'plugin:jest/recommended'
     ],
     globals: {
         Atomics: 'readonly',
         SharedArrayBuffer: 'readonly',
     },
     parser: '@typescript-eslint/parser',
+    settings: {
+        'import/resolver': {
+            'node': {
+                'extensions': ['.js', '.jsx', '.ts', '.tsx']
+            }
+        }
+    },
     parserOptions: {
         ecmaFeatures: {
             jsx: true,
@@ -19,10 +27,13 @@ module.exports = {
         sourceType: 'module',
     },
     plugins: [
+        'jest',
         'react',
         '@typescript-eslint',
     ],
     rules: {
-        "indent": ["error", 4],
+        'indent': ['error', 4],
+        'react/jsx-filename-extension': [1, { 'extensions': ['.jsx', '.tsx'] }],
     },
+
 };

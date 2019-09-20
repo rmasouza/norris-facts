@@ -1,6 +1,4 @@
-'use strict';
 const path = require('path');
-const webpack = require('webpack');
 const compression = require('compression');
 const dotenv = require('dotenv');
 
@@ -10,7 +8,7 @@ const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const Dotenv = require('dotenv-webpack');
 
 const sourcePath = path.join(__dirname, './src');
@@ -22,23 +20,25 @@ console.log(process.env.NODE_ENV);
 const webpackConfig = {
     context: sourcePath,
     entry: {
-        main:'./index.tsx',
+        main: './index.tsx',
     },
     output: {
         path: outputhPath,
-        filename: "[name].[chunkhash].js",
-        chunkFilename: '[name]-[chunkhash].js'
+        filename: '[name].[chunkhash].js',
+        chunkFilename: '[name]-[chunkhash].js',
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.json']
+        extensions: ['.ts', '.tsx', '.js', '.json'],
     },
     module: {
         rules: [
-            { test: /\.tsx?$/,
+            {
+                test: /\.tsx?$/,
                 use: 'ts-loader',
-                exclude: /node_modules/ },
-            { test: /\.css$/, use: [ 'bstyle-loader', 'css-loader' ] },
-        ]
+                exclude: /node_modules/
+            },
+            { test: /\.css$/, use: ['bstyle-loader', 'css-loader'] },
+        ],
     },
     mode: process.env.NODE_ENV,
     optimization: {
@@ -55,24 +55,14 @@ const webpackConfig = {
             cacheGroups: {
                 reactVendors: {
                     test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-                    name: "react~vendors"
+                    name: 'react~vendors',
                 },
-                //     vendor: {
-                //         test: /[\\/]node_modules[\\/]/,
-                //         name(module) {
-                //             // get the name. E.g. node_modules/packageName/not/this/part.js
-                //             // or node_modules/packageName
-                //             const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
-                //             // npm package names are URL-safe, but some servers don't like @ symbols
-                //             return `npm.${packageName.replace('@', '')}`;
-                //         },
-                //     },
-            }
+            },
         },
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: "assets/index.html",
+            template: 'assets/index.html',
             favicon: 'assets/icon.ico',
             inlineSource: 'runtime~.+\\.js',
         }),
@@ -87,10 +77,10 @@ const webpackConfig = {
                     options: {
                         cacheName: 'MyPwaCache',
                         expiration: {
-                            maxEntries: 200
-                        }
-                    }
-                }
+                            maxEntries: 200,
+                        },
+                    },
+                },
             ],
         }),
         new CompressionPlugin(),
@@ -105,27 +95,27 @@ const webpackConfig = {
             background_color: '#fff',
             theme_color: '#fff',
             display: 'standalone',
-            start_url: ".",
-            orientation: "portrait",
+            start_url: '.',
+            orientation: 'portrait',
             icons: [
                 {
                     src: path.resolve('src/assets/icon.png'),
                     sizes: [192, 256, 512],
-                    ios: true
-                }
+                    ios: true,
+                },
             ],
             ios: {
                 // 'apple-touch-icon': string | IosAppleTouchIcon,
                 // 'apple-touch-startup-image': string,
                 'apple-mobile-web-app-title': 'MyPWA',
                 'apple-mobile-web-app-capable': true,
-                'apple-mobile-web-app-status-bar-style':  'black'
+                'apple-mobile-web-app-status-bar-style': 'black',
             },
         }),
         new Dotenv({
             path: path.join(__dirname, './.env'),
-            systemvars: true
-        })
+            systemvars: true,
+        }),
     ],
     node: {
         module: 'empty',
@@ -143,7 +133,7 @@ const webpackConfig = {
         before(app) {
             app.use(compression({}));
         },
-    }
+    },
 };
 
-module.exports=webpackConfig;
+module.exports = webpackConfig;

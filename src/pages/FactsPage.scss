@@ -1,0 +1,55 @@
+.facts-page{
+
+    > .header {
+        min-height: 48px;
+        text-transform: uppercase;
+        display: grid;
+        grid-auto-flow: column;
+        grid-gap: 10px;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    > .header > .icon {
+        width: 20px;
+        cursor: pointer;
+        &:hover {
+            color: #6a6b6d;
+        }
+    }
+
+    > .header > .current-category{
+        margin: 0;
+        display: inline-block;
+    }
+
+    > .content {
+        min-height: 100px;
+        border: 1px solid #d8d8d8;
+        display: flex;
+        padding: 16px;
+        background-color: white;
+    }
+
+    .retry-button {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #d8d8d8;
+        text-transform: uppercase;
+        margin: 1px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+
+        //&:disabled {
+        //    border: 1px solid red;
+        //}
+        &:hover:enabled {
+            background-color: #f5f5f5;
+            font-weight: bolder;
+            margin: 0;
+            border-width: 2px;
+            border-color: black;
+            box-shadow: 3px 5px 0.25px #cdcdcd;
+        }
+    }
+}

@@ -1,0 +1,28 @@
+@import '../styles/breakpoints.scss';
+
+.home-page {
+    display: grid;
+    height:  100%;
+    > .list {
+        margin: auto;
+        margin-top: 20px;
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: space-between;
+        justify-content: space-between;
+        max-width: 720px;
+        min-height: 256px;
+    }
+}
+
+
+@include for-medium-screen {
+    .home-page {
+        > .list {
+            margin: 10px;
+            max-width: calc(100% - 20px);
+        }
+    }
+}

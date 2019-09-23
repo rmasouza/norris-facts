@@ -35,6 +35,6 @@ module.exports = {
         'indent': ['error', 4],
         'react/jsx-indent': [2, 4],
         'react/jsx-filename-extension': [1, { 'extensions': ['.jsx', '.tsx'] }],
-        'no-unused-vars': ["off"]
+        'no-unused-vars': ["off"],
     },
 };

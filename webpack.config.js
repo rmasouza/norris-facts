@@ -15,7 +15,6 @@ const sourcePath = path.join(__dirname, './src');
 const outputhPath = path.resolve(__dirname, './dist');
 
 dotenv.config();
-console.log(process.env.NODE_ENV);
 
 const webpackConfig = {
     context: sourcePath,
@@ -26,6 +25,7 @@ const webpackConfig = {
         path: outputhPath,
         filename: '[name].[chunkhash].js',
         chunkFilename: '[name]-[chunkhash].js',
+        publicPath: process.env.PUBLIC_URL,
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.json'],
@@ -35,9 +35,16 @@ const webpackConfig = {
             {
                 test: /\.tsx?$/,
                 use: 'ts-loader',
-                exclude: /node_modules/
+                exclude: /node_modules/,
             },
-            { test: /\.css$/, use: ['bstyle-loader', 'css-loader'] },
+            {
+                test: /\.s[ac]ss$/i,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'sass-loader',
+                ],
+            },
         ],
     },
     mode: process.env.NODE_ENV,
@@ -62,9 +69,9 @@ const webpackConfig = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: 'assets/index.html',
-            favicon: 'assets/icon.ico',
-            inlineSource: 'runtime~.+\\.js',
+            template: './assets/index.html',
+            favicon: './assets/favicon.png',
+            inlineSource: './runtime~.+\\.js',
         }),
         new InlineSourcePlugin(),
         new WorkboxWebpackPlugin.GenerateSW({
@@ -75,7 +82,7 @@ const webpackConfig = {
                     urlPattern: /^https?.*/,
                     handler: 'NetworkFirst',
                     options: {
-                        cacheName: 'MyPwaCache',
+                        cacheName: 'NorrisCache',
                         expiration: {
                             maxEntries: 200,
                         },
@@ -89,9 +96,10 @@ const webpackConfig = {
             openAnalyzer: false,
         }),
         new WebpackPwaManifest({
-            name: 'My Progressive Web App',
-            short_name: 'MyPWA',
-            description: 'My Awesome Progressive Web App!',
+            publicPath: process.env.PUBLIC_URL,
+            name: 'Norris Facts Web App',
+            short_name: 'Norris Facts PWA',
+            description: 'Norris Facts Progressive Web App!',
             background_color: '#fff',
             theme_color: '#fff',
             display: 'standalone',
@@ -102,11 +110,10 @@ const webpackConfig = {
                     src: path.resolve('src/assets/icon.png'),
                     sizes: [192, 256, 512],
                     ios: true,
+                    purpose: 'maskable',
                 },
             ],
             ios: {
-                // 'apple-touch-icon': string | IosAppleTouchIcon,
-                // 'apple-touch-startup-image': string,
                 'apple-mobile-web-app-title': 'MyPWA',
                 'apple-mobile-web-app-capable': true,
                 'apple-mobile-web-app-status-bar-style': 'black',
@@ -130,6 +137,7 @@ const webpackConfig = {
     devServer: {
         compress: true,
         port: process.env.PORT,
+        historyApiFallback: true,
         before(app) {
             app.use(compression({}));
         },

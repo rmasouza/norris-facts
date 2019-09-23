@@ -1,9 +1,10 @@
 import axios from 'axios';
-import {IObservableArray, observable, runInAction} from 'mobx';
-import {Fact} from '../models/Fact';
+import { IObservableArray, observable, runInAction } from 'mobx';
+import { Fact } from '../models/Fact';
 
 export default class FactsStore {
     categories: IObservableArray<string>;
+
     currentFact: Fact | null = null;
 
     constructor() {
@@ -14,7 +15,7 @@ export default class FactsStore {
         const response = await axios.get<Array<string>>('https://api.chucknorris.io/jokes/categories');
         if (response.status === 200) {
             runInAction(() => {
-                this.categories.replace(response.data);
+                this.categories.replace([...response.data, 'random']);
             });
         } else {
             throw response;
@@ -24,7 +25,7 @@ export default class FactsStore {
     async getRandomFacInCategory(category: string) {
         const response = await axios.get<Fact>('https://api.chucknorris.io/jokes/random',
             {
-                params: { category, },
+                params: { category },
             });
 
         if (response.status === 200) {
@@ -34,7 +35,7 @@ export default class FactsStore {
         } else {
             throw response;
         }
-    };
+    }
 
     async getRandomFact() {
         const response = await axios.get<Fact>('https://api.chucknorris.io/jokes/random');
@@ -46,5 +47,5 @@ export default class FactsStore {
         } else {
             throw response;
         }
-    };
+    }
 }

@@ -1,0 +1,48 @@
+@import "../../styles/breakpoints";
+
+.layout-component {
+    height: 100%;
+    display: grid;
+    grid-template-rows: max-content minmax(0, auto) max-content;
+
+    > .header {
+        text-transform: uppercase;
+        padding: 8px;
+        background-color: #F4F2F0;
+        box-shadow: 1px 1px 4px rgba(106, 107, 109, 0.43);
+    }
+
+    > .header > h1 {
+        margin-bottom: 0;
+        margin-left: 20px;
+        text-align: center;
+    }
+
+    > .content {
+        overflow: auto;
+        width: 768px;
+        margin: 0 auto;
+    }
+
+    > .content > div {
+        height: 100%;
+    }
+
+    > .footer {
+        color: #7a7b7d;
+        text-align: center;
+        padding: 8px;
+        //background-color: orange;
+    }
+}
+
+@include for-medium-screen {
+    .layout-component {
+
+        > .content {
+            margin: 0 16px;
+            width: calc(100% - 32px);
+        }
+    }
+}
+
